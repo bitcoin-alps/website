@@ -1,0 +1,117 @@
+diff --git a/node_modules/astro-navigation/src/NavigationItem.astro b/node_modules/astro-navigation/src/NavigationItem.astro
+index c7be921..d433006 100644
+--- a/node_modules/astro-navigation/src/NavigationItem.astro
++++ b/node_modules/astro-navigation/src/NavigationItem.astro
+@@ -8,6 +8,7 @@ export interface Props extends Entry, Omit<HTMLAttributes<'nav'>, 'title' | 'chi
+   as?: HTMLTag
+   showExcerpt?: boolean
+   disableCurrent?: boolean
++  level?: number
+   listAttrs: Omit<NavProps, 'entries'>
+ }
+ 
+@@ -18,6 +19,7 @@ const {
+   children = [],
+   showExcerpt,
+   disableCurrent = false,
++  level = 1,
+   listAttrs,
+   ...attrs
+ } = Astro.props
+@@ -25,15 +27,15 @@ const {
+ const current = url === Astro.url.pathname
+ ---
+ 
+-<Component {...attrs}>
++<Component class:list={["nav-item", `level-${level}`]} {...attrs}>
+   {
+     current && disableCurrent ? (
+-      <span aria-current="page">{title}</span>
++      <span class:list={["nav-link", `level-${level}`]} aria-current="page">{title}</span>
+     ) : (
+-      <a href={url} aria-current={current ? 'page' : undefined}>
++      <a class:list={["nav-link", `level-${level}`]} href={url} aria-current={current ? 'page' : undefined}>
+         {title}
+       </a>
+     )
+   }
+-  {children.length > 0 && <NavigationList entries={children} {...listAttrs} />}
++  {children.length > 0 && <NavigationList entries={children} level={level + 1} {...listAttrs} />}
+ </Component>
+diff --git a/node_modules/astro-navigation/src/NavigationList.astro b/node_modules/astro-navigation/src/NavigationList.astro
+index c476ebf..702a75a 100644
+--- a/node_modules/astro-navigation/src/NavigationList.astro
++++ b/node_modules/astro-navigation/src/NavigationList.astro
+@@ -6,21 +6,25 @@ import type { Entry } from './utils.js'
+ export interface Props extends Omit<NavigationProps, 'pages'> {
+   entries: Entry[]
+   disableCurrent?: boolean
++  level?: number
+ }
+ 
+-const { as: Component = 'ol', entries, showExcerpts = false, disableCurrent = false, itemAttrs, ...attrs } = Astro.props
++const { as: Component = 'ol', entries, showExcerpts = false, disableCurrent = false, itemAttrs, level = 1, ...attrs } = Astro.props
+ ---
+ 
+-<Component {...attrs}>
+-  {
+-    entries.map((entry) => (
+-      <NavigationItem
+-        {...entry}
+-        showExcerpt={showExcerpts}
+-        disableCurrent={disableCurrent}
+-        listAttrs={{ as: Component, showExcerpts, itemAttrs }}
+-        {...itemAttrs}
+-      />
+-    ))
+-  }
+-</Component>
++<div class="nav-list-wrapper" class:list={[`level-${level}`]}>
++  <Component class:list={["nav-list", `level-${level}`]} {...attrs}>
++    {
++      entries.map((entry) => (
++        <NavigationItem
++          {...entry}
++          showExcerpt={showExcerpts}
++          disableCurrent={disableCurrent}
++          level={level}
++          listAttrs={{ as: Component, showExcerpts, itemAttrs }}
++          {...itemAttrs}
++        />
++      ))
++    }
++  </Component>
++</div>
+diff --git a/node_modules/astro-navigation/src/utils.ts b/node_modules/astro-navigation/src/utils.ts
+index 695adcf..9f471a9 100644
+--- a/node_modules/astro-navigation/src/utils.ts
++++ b/node_modules/astro-navigation/src/utils.ts
+@@ -42,7 +42,7 @@ export function fetchPage(pathname: string) {
+ }
+ 
+ function fileToUrl(file: string) {
+-  const start = file.indexOf('/src/content/pages') + '/src/content/pages'.length
++  const start = file.indexOf('/src/pages') + '/src/pages'.length
+   const end = file.lastIndexOf('.')
+   const path = file
+     .substring(start, end)
+@@ -54,7 +54,7 @@ function fileToUrl(file: string) {
+ 
+ export function fetchPages() {
+   const results = import.meta.glob<Page>(
+-    ['/src/content/pages/**/*.md', '/src/content/pages/**/*.mdx', '/src/content/pages/**/*.astro'],
++    ['/src/pages/**/*.md', '/src/pages/**/*.mdx', '/src/pages/**/*.astro'],
+     { eager: true }
+   )
+   return Object.values<Page>(results).map((page) => ({
+@@ -88,9 +88,9 @@ export function findNavigationEntries(nodes: Page[] = fetchPages(), key = '') {
+       const parent = getParentKey(url)
+       if ((!key && !parent) || parent === key) {
+         pages.push({
+-          ...nav,
+           title: entry.frontmatter.title.toString(),
+           excerpt: entry.frontmatter.headline?.toString(),
++          ...nav,
+           url,
+         })
+       }

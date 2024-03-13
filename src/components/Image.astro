@@ -1,0 +1,54 @@
+---
+import { Image as AstroImage, getImage } from "astro:assets";
+
+type SizeValues = "logo" | "small" | "large";
+type FloatValues = "none" | "left" | "right";
+
+interface SizeDefinition {
+	width: number;
+	height: number;
+	float: FloatValues;
+}
+
+interface Props {
+	src: string;
+	alt: string;
+	size?: SizeValues;
+	float?: FloatValues;
+	zoomable?: boolean;
+}
+
+const sizes: { [K in SizeValues]: SizeDefinition } = {
+	logo: {
+		width: 250,
+		height: 250,
+		float: "left",
+	},
+	small: {
+		width: 500,
+		height: 500,
+		float: "left",
+	},
+	large: {
+		width: 1600,
+		height: 1000,
+		float: "none",
+	},
+};
+
+const size = Astro.props.size ?? "small";
+let { width, height, float } = sizes[size];
+
+if (Astro.props.float) {
+	float = Astro.props.float;
+}
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>("/src/assets/**/*.{jpeg,jpg,png,gif,webp,svg}");
+const imagePath = `/src/assets/${Astro.props.src}`;
+const image = allImages[imagePath];
+if (image == null) {
+	throw new Error(`Image "${imagePath}" does not exist.`);
+}
+---
+
+<AstroImage {...Astro.props} src={image()} width={width} height={height} class:list={["content-image", `is-${size}`, `is-float-${float}`]} />

@@ -1,0 +1,62 @@
+---
+import { Icon } from "astro-icon/components";
+interface Props {
+	color?: string;
+	size?: string;
+	orientation?: "horizontal" | "vertical";
+}
+interface Item {
+	name: string;
+	icon: string;
+	url: string;
+}
+
+const { color = "grey-middle", size = "size-6", orientation = "horizontal" } = Astro.props;
+
+const items: Item[] = [
+	{
+		name: "Twitter",
+		icon: "twitter",
+		url: "https://twitter.com/bitcoin_alps",
+	},
+	{
+		name: "Telegram",
+		icon: "telegram",
+		url: "https://t.me/bitcoin_alps",
+	},
+	{
+		name: "Instagram",
+		icon: "instagram",
+		url: "https://instagram.com/bitcoin_alps",
+	},
+	{
+		name: "Github",
+		icon: "github",
+		url: "https://github.com/bitcoin-alps",
+	},
+];
+---
+
+<div class="social-icons" class:list={[`social-icons--${orientation}`]}>
+	{
+		items.map((item) => (
+			<a class="button is-ghost py-2 social-icons__item" class:list={[`has-text-${color}`, `is-${size}`]} href={item.url} title={item.name} aria-label={item.name}>
+				<Icon class="icon" name={item.icon} />
+			</a>
+		))
+	}
+</div>
+
+<style lang="scss">
+	.social-icons {
+		display: flex;
+	}
+	
+	.social-icons--vertical {
+		flex-direction: column;
+	}
+
+	.social-icons__item {
+		display: block;
+	}
+</style>

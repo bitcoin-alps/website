@@ -1,0 +1,38 @@
+@font-face {
+    font-family: InterVariable;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("/fonts/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: InterVariable;
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("/fonts/InterVariable-Italic.woff2") format("woff2");
+}
+
+/* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1408,20,1.25,8,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+:root {
+	--step--2: clamp(0.7813rem, 0.7757rem + 0.0276vi, 0.8rem);
+	--step--1: clamp(0.9375rem, 0.9191rem + 0.0919vi, 1rem);
+	--step-0: clamp(1.125rem, 1.0882rem + 0.1838vi, 1.25rem);
+	--step-1: clamp(1.35rem, 1.2875rem + 0.3125vi, 1.5625rem);
+	--step-2: clamp(1.62rem, 1.522rem + 0.4899vi, 1.9531rem);
+	--step-3: clamp(1.944rem, 1.7977rem + 0.7315vi, 2.4414rem);
+	--step-4: clamp(2.3328rem, 2.1213rem + 1.0573vi, 3.0518rem);
+	--step-5: clamp(2.7994rem, 2.5007rem + 1.4931vi, 3.8147rem);
+	--step-6: clamp(3.3592rem, 2.9448rem + 2.0723vi, 4.7684rem);
+	--step-7: clamp(4.0311rem, 3.4636rem + 2.8373vi, 5.9605rem);
+	--step-8: clamp(4.8373rem, 4.0687rem + 3.8431vi, 7.4506rem);
+}
+
+:root {
+	font-feature-settings: 'liga' 1, 'calt' 1; // fix for Chrome
+}
+
+body {
+	min-height: 100svh;
+}

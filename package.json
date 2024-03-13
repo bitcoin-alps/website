@@ -1,0 +1,39 @@
+{
+	"name": "bitcoinalps-web",
+	"type": "module",
+	"version": "0.0.1",
+	"private": true,
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro check && astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"postinstall": "patch-package"
+	},
+	"dependencies": {
+		"@astrojs/check": "^0.5.2",
+		"@astrojs/mdx": "^2.1.1",
+		"@astrojs/sitemap": "^3.0.5",
+		"@fancyapps/ui": "^5.0.33",
+		"astro": "^4.3.5",
+		"astro-auto-import": "^0.4.2",
+		"astro-icon": "^1.1.0",
+		"astro-navigation": "^0.4.0",
+		"bulma": "^0.9.4",
+		"lodash": "^4.17.21",
+		"nanoid": "^5.0.5",
+		"typescript": "^5.3.3"
+	},
+	"devDependencies": {
+		"autoprefixer": "^10.4.17",
+		"patch-package": "^8.0.0",
+		"postcss": "^8.4.35",
+		"postcss-easing-gradients": "^3.0.1",
+		"postcss-easings": "^4.0.0",
+		"sass": "^1.70.0"
+	}
+}

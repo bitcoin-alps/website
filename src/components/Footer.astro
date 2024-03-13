@@ -1,0 +1,80 @@
+---
+import SocialIcons from "./SocialIcons.astro";
+---
+
+<footer class="footer">
+	<div class="footer__social-icons">
+		<SocialIcons color="dusk" size="size-7" />
+	</div>
+
+	<div class="footer__utility-nav">
+		<a href="/datenschutz">Datenschutz</a>
+	</div>
+</footer>
+
+<style lang="scss">
+	@use "sass:math";
+	@import "bulma/sass/utilities/mixins";
+
+	.footer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		position: relative;
+		margin-top: $section-padding-h;
+		padding: 1em;
+		background: $grey-lighter;
+
+		@include touch {
+            padding-top: 2em;
+
+			&::after {
+				content: "";
+				position: absolute;
+				top: -1em;
+				left: 0;
+				width: 100%;
+				height: 2em;
+				background: white;
+				clip-path: ellipse(60% 90% at center top);
+				z-index: 1;
+			}
+		}
+
+		@include desktop {
+			gap: 1em;
+			align-items: flex-end;
+			text-align: right;
+			background: transparent;
+
+			&::after {
+				$width: 16em;
+                
+                content: "";
+                position: absolute;
+				bottom: 0;
+				right: 0;
+				width: $width;
+				height: math.tan(54deg) * $width;
+				background: $grey-lighter;
+				clip-path: polygon(0 100%, 100% 100%, 100% 0);
+				z-index: -1;
+			}
+		}
+	}
+
+	.footer__social-icons {
+		margin-right: -0.5em;
+	}
+
+	.footer__utility-nav {
+		a {
+			color: $dusk;
+			font-weight: 700;
+
+			@include touch {
+				font-size: var(--step--1);
+			}
+		}
+	}
+</style>

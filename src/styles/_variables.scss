@@ -1,0 +1,65 @@
+@import "bulma/sass/utilities/initial-variables";
+
+$size-1: var(--step-6);
+$size-2: var(--step-5);
+$size-3: var(--step-4);
+$size-4: var(--step-3);
+$size-5: var(--step-2);
+$size-6: var(--step-1);
+$size-7: var(--step-0);
+$size-8: var(--step--1);
+$size-9: var(--step--2);
+$sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7 $size-8 $size-9;
+
+$size-small: var(--step--1);
+$size-normal: var(--step-0);
+$size-medium: var(--step-1);
+$size-large: var(--step-2);
+
+$button-responsive-sizes: (
+	"mobile": (
+		"small": var(--step--3), 
+		"normal": var(--step--2), 
+		"medium": var(--step--1), 
+		"large": var(--step-0)
+	),
+	"tablet-only": (
+		"small": var(--step--2), 
+		"normal": var(--step-1), 
+		"medium": var(--step-0), 
+		"large": var(--step-1)
+	),
+);
+
+$body-font-size: var(--step-0);
+$family-primary: InterVariable, $family-sans-serif;
+
+$yellow: #f7931a;
+$pink: #720f88;
+$dusk: #5a2366;
+$grey-middle: #8A6A7A;
+$grey-lighter: #EDE8EA;
+
+$primary: $pink;
+$link: $pink;
+
+$custom-colors: (
+    "primary": ($yellow, $pink),
+	"yellow": ($yellow, $black),
+	"pink": ($pink, $white),
+	"dusk": ($dusk, $white),
+	"grey-middle": ($grey-middle, $black),
+);
+
+$content-heading-color: $pink;
+$content-heading-weight: 800;
+
+$title-color: currentColor;
+$title-weight: 800;
+$title-line-height: 1;
+
+$section-padding-h: 7vw;
+$section-padding-v: 4vh;
+
+$section-padding: $section-padding-v $section-padding-h;
+$section-padding-desktop: $section-padding;

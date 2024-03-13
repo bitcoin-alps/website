@@ -1,0 +1,72 @@
+---
+import { Image, getImage } from "astro:assets";
+import { nanoid } from "nanoid";
+
+interface Props {
+	src: string;
+}
+
+if (Astro.props.src == null) {
+	throw new Error("Prop 'src' must be provided");
+}
+
+const galleryId = nanoid();
+
+let basePath = `/src/assets/${Astro.props.src}/`;
+if (basePath?.endsWith("/")) {
+	basePath = basePath.slice(0, -1);
+}
+const allImages = import.meta.glob<{ default: ImageMetadata }>("/src/assets/**/*.{jpeg,jpg,png,gif,webp,svg}");
+const images = Object.entries(allImages)
+	.filter(([path, _]) => path.startsWith(basePath))
+	.map(([_, image]) => image());
+
+const data = await Promise.all(
+	images.map(async (image) => {
+		let zoomImage = await getImage({ src: image, width: 2000, height: 2000 });
+		return { image, zoomImage };
+	}),
+);
+---
+
+<div class="image-gallery">
+	{
+		data.map(({ image, zoomImage }) => (
+			<a class="item" data-fancybox={galleryId} href={zoomImage.src}>
+				<Image class="image" src={image} width="400" height="400" alt="" />
+			</a>
+		))
+	}
+</div>
+
+<style lang="scss">
+	@import "bulma/sass/utilities/mixins";
+
+	.image-gallery {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        justify-content: center;
+		gap: 2vmin;
+		position: relative;
+		left: 50%;
+		right: 50%;
+		min-width: 100%;
+		width: 70vw;
+		object-fit: contain;
+		transform: translateX(-50%);
+
+        @include mobile {
+            grid-template-columns: repeat(2, 1fr);
+        }
+	}
+
+    .item {
+    }
+
+	.image {
+		width: 100%;
+		height: 100%;
+		aspect-ratio: 1;
+		object-fit: cover;
+	}
+</style>

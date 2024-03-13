@@ -1,0 +1,376 @@
+---
+import Logo from "/public/logo.svg?raw";
+import { Icon } from "astro-icon/components";
+import SocialIcons from "./SocialIcons.astro";
+import Navigation from "astro-navigation";
+---
+
+<div class="site-header">
+	<div class="site-header__inner">
+		<a class="site-header__logo" href="/" aria-label="Home">
+			<Fragment set:html={Logo} />
+		</a>
+
+		<button class="button is-ghost main-nav__toggle">
+			<Icon name="hamburger-menu-square" />
+			<Icon name="delete-square" />
+		</button>
+		<nav class="main-nav site-header__nav">
+			<Navigation as="ul" />
+		</nav>
+
+		<div class="site-header__social-icons">
+			<SocialIcons orientation="vertical" />
+		</div>
+
+		<div class="site-header__bg"></div>
+	</div>
+</div>
+
+<style lang="scss">
+	@import "bulma/sass/utilities/mixins";
+
+	.site-header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		transition: height ease-out-quint 400ms;
+		z-index: 8;
+
+		@include desktop {
+			height: 0.5em;
+
+			&.is-open {
+				height: 9em;
+			}
+		}
+		@include widescreen {
+			height: 1.5em;
+		}
+		@include fullhd {
+			height: 2em;
+		}
+	}
+
+	.site-header__inner {
+		@include desktop {
+			display: flex;
+			gap: 2em;
+			align-items: flex-end;
+		}
+	}
+
+	.site-header__bg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		transition: all ease-out-quad 300ms;
+
+		&::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			width: 100%;
+			height: 100vh;
+			background: linear-gradient(to bottom, white calc(100vh - 7em), #f6f3f5);
+			clip-path: ellipse(200% 50% at 50% 50%);
+			transition: opacity ease-in-sine 200ms;
+		}
+
+		.is-open & {
+			filter: drop-shadow(0 4px 10px rgba(black, 0.25));
+		}
+
+		@include touch {
+			transform: translateY(calc(-100% + max(4em, 11vw)));
+
+			&::after {
+				bottom: -1em;
+			}
+
+			.is-open & {
+				transform: none;
+			}
+		}
+
+		@include desktop {
+			opacity: 0;
+
+			&::after {
+				bottom: -7em;
+			}
+
+			.is-stuck & {
+				transition: opacity ease-out-quad 200ms;
+				opacity: 1;
+			}
+
+			.is-open & {
+				opacity: 1;
+			}
+		}
+	}
+
+	.site-header__logo {
+		--width: clamp(3em, 8vw, 6em);
+		display: block;
+		width: var(--width);
+		margin-top: 1em;
+
+		@include touch {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			transition: opacity ease-out-sine 200ms;
+
+			.is-open & {
+				opacity: 0;
+			}
+		}
+
+		@include desktop {
+			position: static;
+			margin-bottom: calc(var(--width) * -0.3);
+			margin-left: $section-padding-h;
+			transition: all ease-out-quint 400ms;
+			transform: scale3d(0.666, 0.666, 1);
+			transform-origin: 0% 70%;
+
+			.is-open & {
+				transform: none;
+			}
+		}
+	}
+
+	.site-header__nav {
+		flex: 1 1 auto;
+
+		@include touch {
+			padding: 4.5em 1em 1em 1em;
+			transform: translateY(-100%);
+			transition: transform ease-out-sine 300ms;
+
+			.is-open & {
+				transform: none;
+			}
+		}
+	}
+
+	.site-header__social-icons {
+		position: absolute;
+		top: 1em;
+		right: 1em;
+		transform: translate3d(0, -125%, 0);
+		transition: transform ease-out-sine 300ms;
+
+		.is-open & {
+			transform: none;
+		}
+
+		@include touch {
+			:global(.social-icons) {
+				flex-direction: row;
+			}
+		}
+	}
+
+	.main-nav__toggle {
+		position: absolute;
+		top: 1em;
+		left: 0;
+
+		@include desktop {
+			display: none;
+		}
+
+		> svg {
+			font-size: var(--step-4);
+		}
+		> [data-icon="delete-square"] {
+			display: none;
+		}
+
+		.is-open & {
+			> [data-icon="hamburger-menu-square"] {
+				display: none;
+			}
+			> [data-icon="delete-square"] {
+				display: block;
+			}
+		}
+	}
+</style>
+
+<style lang="scss" is:global>
+	@import "bulma/sass/utilities/mixins";
+
+	.main-nav {
+		.nav-list.level-1 {
+			display: flex;
+			flex-direction: column;
+			gap: 0.75em 0;
+
+			@include desktop {
+				flex-direction: row;
+			}
+		}
+
+		.nav-list-wrapper.level-2 {
+			@include desktop {
+				display: grid;
+				grid-template-rows: 0fr;
+				position: absolute;
+				width: 100%;
+				padding-right: 0.5em;
+				overflow: hidden;
+				transition: grid-template-rows ease-out-quint 300ms;
+
+				.is-open & {
+					grid-template-rows: 1fr;
+
+					> .nav-list {
+						visibility: visible;
+					}
+				}
+
+				> .nav-list {
+					min-height: 0;
+					transition: visibility 500ms;
+					visibility: hidden;
+				}
+			}
+		}
+
+		.nav-item {
+			position: relative;
+
+			&.level-1 {
+				@include desktop {
+					width: min-content;
+				}
+			}
+
+			&.level-2 {
+				margin-left: 0.666em;
+				margin-bottom: 0.5em;
+				hyphens: auto;
+
+				&:first-child {
+					margin-top: 0.5em;
+				}
+
+				&::marker {
+					content: "› ";
+					font-weight: 500;
+				}
+			}
+		}
+
+		.nav-link {
+			display: block;
+			line-height: 1.1;
+
+			&[aria-current="page"] {
+				color: $yellow !important;
+			}
+
+			&.level-1 {
+				font-weight: 700;
+				font-size: var(--step-1);
+				color: $dusk;
+				white-space: nowrap;
+
+				@include desktop {
+					margin-right: 2em;
+				}
+			}
+		}
+	}
+</style>
+
+<script>
+	const header = document.querySelector<HTMLElement>(".site-header")!;
+	const navToggle = document.querySelector(".main-nav__toggle");
+	const desktopNavQuery = window.matchMedia("(min-width: 1024px)");
+
+	// stuck background
+	let isHeaderStuck = false;
+	window.addEventListener("scroll", () => {
+		if (!isHeaderStuck && window.scrollY > 10) {
+			header.classList.add("is-stuck");
+			isHeaderStuck = true;
+		}
+		if (isHeaderStuck && window.scrollY <= 10) {
+			header.classList.remove("is-stuck");
+			isHeaderStuck = false;
+		}
+	});
+	if (window.scrollY > 10) {
+		header.classList.add("is-stuck");
+		isHeaderStuck = true;
+	}
+
+	// collapsing
+	let isHeaderOpen = false;
+
+	function openHeader() {
+		header.classList.add("is-open");
+		isHeaderOpen = true;
+	}
+	function onMouseEnterOrMove() {
+		if (!isHeaderOpen) {
+			openHeader();
+		}
+	}
+	function onMouseLeave() {
+		header.classList.remove("is-open");
+		isHeaderOpen = false;
+	}
+	function onHeaderTouchstart(e: Event) {
+		const target = e.target as HTMLElement;
+		if (!isHeaderOpen && target.classList.contains("nav-link")) {
+			openHeader();
+			e.preventDefault();
+		}
+	}
+
+	function setupDesktopNav() {
+		isHeaderOpen = false;
+		header.classList.remove("is-open");
+
+		header.addEventListener("mouseenter", onMouseEnterOrMove);
+		header.addEventListener("mousemove", onMouseEnterOrMove);
+		header.addEventListener("mouseleave", onMouseLeave);
+		header.addEventListener("touchstart", onHeaderTouchstart);
+	}
+
+	function teardownDesktopNav() {
+		isHeaderOpen = false;
+		header.classList.remove("is-open");
+
+		header.removeEventListener("mouseenter", onMouseEnterOrMove);
+		header.removeEventListener("mousemove", onMouseEnterOrMove);
+		header.removeEventListener("mouseleave", onMouseLeave);
+		header.removeEventListener("touchstart", onHeaderTouchstart);
+	}
+
+	navToggle?.addEventListener("click", () => {
+		header.classList.toggle("is-open");
+	});
+
+	desktopNavQuery.addEventListener("change", (e) => {
+		if (e.matches) {
+			setupDesktopNav();
+		} else {
+			teardownDesktopNav();
+		}
+	});
+	if (desktopNavQuery.matches) {
+		setupDesktopNav();
+	}
+</script>

@@ -1,0 +1,7 @@
+@import "variables"; // not strictly needed, as it's imported by config
+
+@import "@fancyapps/ui/dist/fancybox/fancybox.css";
+@import "bulma/bulma";
+
+@import "base";
+@import "content";
