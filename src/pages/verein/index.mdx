@@ -7,6 +7,8 @@ navigation:
   title: Verein
 ---
 
+import MemberSignupForm from "@components/forms/MemberSignupForm.svelte"
+
 ## Gründung
 
 Nachdem das lokale Bitcoin-Meetup in Thun über die Jahre langsam und organisch gewachsen ist, haben wir **im November 2022** (Blockzeit 765080) den Verein «Bitcoin Alps» gegründet.
@@ -55,7 +57,9 @@ Mitglieder von „Bitcoin Alps“ können natürliche und juristische Personen w
 
 ## Mitglied werden
 
-Du hast die Möglichkeit den Antrag auf Mitgliedschaft per Mail via\
+<MemberSignupForm client:load />
+
+Du hast die Möglichkeit den Antrag auf Mitgliedschaft auch per Mail via\
 verein(ät)bitcoin-alps.ch zu stellen.
 
 ## Statuten

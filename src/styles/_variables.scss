@@ -11,10 +11,10 @@ $size-8: var(--step--1);
 $size-9: var(--step--2);
 $sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7 $size-8 $size-9;
 
-$size-small: var(--step--1);
-$size-normal: var(--step-0);
-$size-medium: var(--step-1);
-$size-large: var(--step-2);
+$size-small: 1rem; //var(--step--1);
+$size-normal: 1.25rem; //var(--step-0);
+$size-medium: 1.5625rem; //var(--step-1);
+$size-large: 1.95rem; //var(--step-2);
 
 $button-responsive-sizes: (
 	"mobile": (
