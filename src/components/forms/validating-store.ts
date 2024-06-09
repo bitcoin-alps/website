@@ -10,7 +10,7 @@ export class ValidatingStoreItem<TProp = any> {
 	private valueStore: Writable<any>;
 	private dirtyStore: Writable<any>;
 	private validationAccessor: () => SuiteResult<string, string>;
-	private _value: TProp;
+	private _value!: TProp;
 	private _isDirty: boolean = false;
 
 	readonly pointer: JsonPointer;
