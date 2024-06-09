@@ -18,15 +18,21 @@
 		"@astrojs/check": "^0.5.2",
 		"@astrojs/mdx": "^2.1.1",
 		"@astrojs/sitemap": "^3.0.5",
+		"@astrojs/svelte": "^5.2.0",
 		"@fancyapps/ui": "^5.0.33",
 		"astro": "^4.3.5",
 		"astro-auto-import": "^0.4.2",
 		"astro-icon": "^1.1.0",
 		"astro-navigation": "^0.4.0",
 		"bulma": "^0.9.4",
+		"http-problem-details": "^0.1.5",
+		"json-ptr": "^3.1.1",
+		"ky": "^1.2.2",
 		"lodash": "^4.17.21",
-		"nanoid": "^5.0.5",
-		"typescript": "^5.3.3"
+		"nanoid": "^5.0.6",
+		"svelte": "^4.2.12",
+		"typescript": "^5.3.3",
+		"vest": "^5.2.10"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.17",

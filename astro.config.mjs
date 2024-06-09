@@ -4,6 +4,8 @@ import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
 import AutoImport from "astro-auto-import";
+import svelte from "@astrojs/svelte";
+
 import { addDefaultFrontmatterEntries } from "./addDefaultFrontmatterEntries.mjs";
 
 // https://astro.build/config
@@ -27,6 +29,7 @@ export default defineConfig({
         icon({
             include: {}
         }),
+        svelte(),
     ],
     vite: {
         css: {
