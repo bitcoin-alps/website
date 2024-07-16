@@ -37,9 +37,11 @@ import Navigation from "astro-navigation";
 		width: 100%;
 		transition: height ease-out-quint 400ms;
 		z-index: 8;
+		pointer-events: none;
 
 		@include desktop {
 			height: 0.5em;
+			pointer-events: auto;
 
 			&.is-open {
 				height: 9em;
@@ -58,6 +60,10 @@ import Navigation from "astro-navigation";
 			display: flex;
 			gap: 2em;
 			align-items: flex-end;
+		}
+
+		> * {
+			pointer-events: auto;
 		}
 	}
 
