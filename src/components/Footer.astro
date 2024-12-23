@@ -50,16 +50,16 @@ import SocialIcons from "./SocialIcons.astro";
 			background: transparent;
 
 			&::after {
-				$width: 17em;
+				$width: 20em; //breiter gemacht
                 
                 content: "";
                 position: absolute;
 				bottom: 0;
 				right: 0;
 				width: $width;
-				height: math.tan(54deg) * $width + 2em;
+				height: math.tan(54deg) * $width + 3em;
 				background: $grey-lighter;
-				clip-path: polygon(0 100%, 100% 100%, 100% calc(0% - 2em));
+				clip-path: polygon(0 100%, 100% 100%, 100% calc(100% - 3em));
 				z-index: -1;
 			}
 		}
