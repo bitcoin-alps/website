@@ -20,7 +20,7 @@
 		"@astrojs/sitemap": "^3.0.5",
 		"@astrojs/svelte": "^5.2.0",
 		"@fancyapps/ui": "^5.0.33",
-		"astro": "^4.3.5",
+		"astro": "^4.16.1",
 		"astro-auto-import": "^0.4.2",
 		"astro-icon": "^1.1.0",
 		"astro-navigation": "^0.4.0",
