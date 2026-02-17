@@ -133,7 +133,7 @@
                     {@html CheckCircle}
 				</div>
 				<div class="column">
-					<p>Vielen Dank für Ihre Nomination.</p>
+					<p>Wir freuen uns, dass du dem Verein Bitcoin Alps beitreten möchtest. Wir melden uns in Kürze bei dir.</p>
 				</div>
 			</div>
 		</div>
