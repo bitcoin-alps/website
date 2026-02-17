@@ -15,31 +15,33 @@
 		"postinstall": "patch-package"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.5.2",
-		"@astrojs/mdx": "^2.1.1",
-		"@astrojs/sitemap": "^3.0.5",
-		"@astrojs/svelte": "^5.2.0",
-		"@fancyapps/ui": "^5.0.33",
-		"astro": "^4.3.5",
-		"astro-auto-import": "^0.4.2",
-		"astro-icon": "^1.1.0",
+		"@astrojs/check": "^0.9.6",
+		"@astrojs/mdx": "^4.3.13",
+		"@astrojs/sitemap": "^3.7.0",
+		"@astrojs/svelte": "^7.2.5",
+		"@fancyapps/ui": "^6.1.10",
+		"astro": "^5.17.2",
+		"astro-auto-import": "^0.5.1",
+		"astro-icon": "^1.1.5",
 		"astro-navigation": "^0.4.0",
 		"bulma": "^0.9.4",
-		"http-problem-details": "^0.1.5",
+		"http-problem-details": "^0.1.7",
 		"json-ptr": "^3.1.1",
-		"ky": "^1.2.2",
-		"lodash": "^4.17.21",
-		"nanoid": "^5.0.6",
-		"svelte": "^4.2.12",
-		"typescript": "^5.3.3",
-		"vest": "^5.2.10"
+		"ky": "^1.14.3",
+		"lodash": "^4.17.23",
+		"nanoid": "^5.1.6",
+		"svelte": "^5.51.2",
+		"typescript": "^5.9.3",
+		"vest": "^5.4.6",
+		"walkjs": "^6.0.1"
 	},
 	"devDependencies": {
-		"autoprefixer": "^10.4.17",
-		"patch-package": "^8.0.0",
-		"postcss": "^8.4.35",
+		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"autoprefixer": "^10.4.24",
+		"patch-package": "^8.0.1",
+		"postcss": "^8.5.6",
 		"postcss-easing-gradients": "^3.0.1",
 		"postcss-easings": "^4.0.0",
-		"sass": "^1.70.0"
+		"sass-embedded": "^1.97.3"
 	}
 }
