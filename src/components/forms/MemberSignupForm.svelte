@@ -10,6 +10,9 @@
 	import TextField from "./TextField.svelte";
 	import { FormState } from "./models";
 	import { ValidatingStore } from "./validating-store";
+	import { createNsId } from "./utility";
+
+	const nsId = createNsId("MemberSignup");
 
 	interface MemberSignupRequest {
 		firstname: string;
@@ -57,7 +60,7 @@
 	};
 
 	let state: FormState = FormState.Initial;
-	let store = new ValidatingStore<MemberSignupRequest>(initialData, validationFunc);
+	let store = new ValidatingStore(initialData, validationFunc);
 	let error: ProblemDocument | null = null;
 
 	async function submit() {
@@ -112,8 +115,8 @@
 			</div>
 			<div class="column is-12">
 				<div class="field">
-					<input class="is-checkradio is-primary" id="acceptTos" name="acceptTos" type="checkbox" bind:checked={$store.acceptTos.value} />
-					<label for="acceptTos">Ich habe <a class="has-underline" href={tosUrl} target="_blank">die Statuten</a> gelesen und möchte dem Verein Bitcoin Alps beitreten.</label>
+					<input class="is-checkradio is-primary" id={nsId("acceptTos")} name="acceptTos" type="checkbox" bind:checked={$store.acceptTos.value} />
+					<label for={nsId("acceptTos")}>Ich habe <a class="has-underline" href={tosUrl} target="_blank">die Statuten</a> gelesen und möchte dem Verein Bitcoin Alps beitreten.</label>
 				</div>
 				{#each $store.acceptTos.errors as error}
 					<p class="help is-danger">{error}</p>
