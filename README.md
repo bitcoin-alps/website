@@ -55,7 +55,7 @@ The usage of MDX enables using components inside markdown. The following compone
 * Image
 * ImageGallery
 
-#### Image compontent usage
+#### Image component usage
 
 `<Image src="path/to/image.jpg" size="small" float="left" alt="Image description" />`
 
@@ -74,6 +74,18 @@ The usage of MDX enables using components inside markdown. The following compone
 `<ImageGallery src="path/to/folder-with-images" />`
 
 * `src` is relative to the `src/assets/` directory, to display a gallery of all images inside the directory `src/assets/foo/` you would use `src="foo"`
+
+#### Course registration component usage
+
+Displays a registration button with customizable text, opens a registration modal on click.
+This component must be manually imported with `import CourseRegistration from "@components/forms/CourseRegistration.svelte"`
+
+`<CourseRegistration client:load eventName="Event name" eventDate="Event date from-to, free text">Button text</CourseRegistration>`
+
+* `client:load` needs to be specified for the component to work correctly
+* `eventName` the name of the event, will be shown as the title in the registration form
+* `eventDate` the date(s) and time(s) etc. in freeform text, will be shown directly below the event name
+* Child content will be shown inside the button
 
 
 ## 🧞 Commands
