@@ -5,15 +5,15 @@
 	import { ProblemDocument } from "http-problem-details";
 	import "vest/enforce/email";
 
-    import CheckCircle from "/src/icons/check-circle.svg?raw";
-    import WarningTriangle from "/src/icons/warning-triangle.svg?raw";
+	import CheckCircle from "/src/icons/check-circle.svg?raw";
+	import WarningTriangle from "/src/icons/warning-triangle.svg?raw";
 
 	import TextField from "./TextField.svelte";
 	import { FormState } from "./models";
 	import { ValidatingStore } from "./validating-store";
 	import { createNsId } from "./utility";
 
-	const nsId = createNsId('CourseRegistration');
+	const nsId = createNsId("CourseRegistration");
 
 	interface CourseRegistrationRequest {
 		eventName: string;
@@ -28,13 +28,15 @@
 	interface Props {
 		eventName: string;
 		eventDate: string;
+		cutoffDate?: string;
+		disabled?: boolean;
 		children?: Snippet;
 	}
 
-	let { eventName, eventDate, children }: Props = $props();
+	let { eventName, eventDate, cutoffDate, disabled = false, children }: Props = $props();
 
 	const tosUrl = "/akademie/kursbedingungen";
-    const action: string = "/api/academy-ticket";
+	const action: string = "/api/academy-ticket";
 	const initialData: CourseRegistrationRequest = {
 		eventName: eventName,
 		eventDate: eventDate,
@@ -62,6 +64,10 @@
 	let store = new ValidatingStore(initialData, validationFunc);
 	let error: ProblemDocument | null = $state(null);
 	let isModalOpen = $state(false);
+
+	const isPastCutoff = $derived(cutoffDate ? new Date() > new Date(cutoffDate) : false);
+	const isDisabled = $derived(isPastCutoff || disabled);
+	const buttonTooltip = $derived(isPastCutoff ? "Keine Anmeldung mehr möglich" : disabled ? "Zurzeit keine Anmeldung möglich" : null);
 
 	function openModal() {
 		isModalOpen = true;
@@ -97,7 +103,11 @@
 	}
 </script>
 
-<button class="button is-primary is-small is-responsive" onclick={openModal}>{@render children?.()}</button>
+<span class:has-tooltip={isDisabled} data-tooltip={buttonTooltip}>
+	<button class="button is-primary is-small is-responsive" disabled={isDisabled} onclick={openModal}>
+		{@render children?.()}
+	</button>
+</span>
 
 <div class="modal" class:is-active={isModalOpen}>
 	<div class="modal-background" onclick={closeModal}></div>
@@ -127,8 +137,8 @@
 						</div>
 						<div class="column is-12">
 							<div class="field">
-							<input class="is-checkradio is-primary" id={nsId("acceptTos")} name="acceptTos" type="checkbox" bind:checked={$store.acceptTos.value} />
-							<label for={nsId("acceptTos")}>Ich habe <a class="has-underline" href={tosUrl} target="_blank">die Allgemeinen Kurs­bedingungen</a> gelesen und akzeptiere sie.</label>
+								<input class="is-checkradio is-primary" id={nsId("acceptTos")} name="acceptTos" type="checkbox" bind:checked={$store.acceptTos.value} />
+								<label for={nsId("acceptTos")}>Ich habe <a class="has-underline" href={tosUrl} target="_blank">die Allgemeinen Kurs­bedingungen</a> gelesen und akzeptiere sie.</label>
 							</div>
 							{#each $store.acceptTos.errors as error}
 								<p class="help is-danger">{error}</p>
@@ -182,3 +192,33 @@
 		{/if}
 	</div>
 </div>
+
+<style lang="scss">
+	.has-tooltip {
+		position: relative;
+		display: inline-block;
+		cursor: not-allowed;
+
+		&::after {
+			content: attr(data-tooltip);
+			position: absolute;
+			bottom: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			background: #4a4a4a;
+			color: #fff;
+			padding: 0.35rem 0.75rem;
+			border-radius: 4px;
+			font-size: 0.75rem;
+			white-space: nowrap;
+			pointer-events: none;
+			opacity: 0;
+			transition: opacity 0.2s;
+			margin-bottom: 4px;
+		}
+
+		&:hover::after {
+			opacity: 1;
+		}
+	}
+</style>

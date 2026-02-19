@@ -80,11 +80,13 @@ The usage of MDX enables using components inside markdown. The following compone
 Displays a registration button with customizable text, opens a registration modal on click.
 This component must be manually imported with `import CourseRegistration from "@components/forms/CourseRegistration.svelte"`
 
-`<CourseRegistration client:load eventName="Event name" eventDate="Event date from-to, free text">Button text</CourseRegistration>`
+`<CourseRegistration client:load eventName="Event name" eventDate="Event date from-to, free text" cutoffDate="2026-03-01">Button text</CourseRegistration>`
 
 * `client:load` needs to be specified for the component to work correctly
-* `eventName` the name of the event, will be shown as the title in the registration form
+* `eventName` the name of the event, will be shown as a title in the registration form
 * `eventDate` the date(s) and time(s) etc. in freeform text, will be shown directly below the event name
+* `cutoffDate` *(optional)* an ISO date string (e.g. `"2026-03-01"`). After this date the registration button is disabled and an informational tooltip is shown
+* `disabled` *(optional, default `false`)* when set to `true`, disables the registration button and shows an informational tooltip
 * Child content will be shown inside the button
 
 
