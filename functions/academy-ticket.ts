@@ -1,10 +1,27 @@
-export const onRequestPost: PagesFunction = async (context) => {
+import type { PagesFunction } from '@cloudflare/workers-types';[web:72]
+
+interface CourseRegistrationRequest {
+  eventName: string;
+  eventDate: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone?: string;
+  acceptTos: boolean;
+}
+
+interface Env {
+  TELEGRAM_BOT_TOKEN: string;
+  TELEGRAM_CHAT_ID: string;
+}
+
+export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { request, env } = context;
 
   try {
-    const body = await request.json<CourseRegistrationRequest>();
+    const body: CourseRegistrationRequest = await request.json();
 
-    // Basic validation (you can mirror what you do in Svelte or trust the client)
+    // Basic validation
     if (!body.firstname || !body.lastname || !body.email || !body.acceptTos) {
       return new Response(
         JSON.stringify({
@@ -79,13 +96,3 @@ export const onRequestPost: PagesFunction = async (context) => {
     );
   }
 };
-
-interface CourseRegistrationRequest {
-  eventName: string;
-  eventDate: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  phone?: string;
-  acceptTos: boolean;
-}
