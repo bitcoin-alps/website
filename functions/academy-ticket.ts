@@ -1,5 +1,3 @@
-import type { PagesFunction } from '@cloudflare/workers-types';[web:72]
-
 interface CourseRegistrationRequest {
   eventName: string;
   eventDate: string;
@@ -15,7 +13,7 @@ interface Env {
   TELEGRAM_CHAT_ID: string;
 }
 
-export const onRequestPost: PagesFunction<Env> = async (context) => {
+export const onRequestPost = async (context: any) => {
   const { request, env } = context;
 
   try {
