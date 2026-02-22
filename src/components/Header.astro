@@ -20,7 +20,7 @@ import Navigation from "astro-navigation";
 		</nav>
 
 		<div class="site-header__social-icons">
-			<SocialIcons orientation="vertical" />
+			<SocialIcons orientation="vertical" size="is-size-7" />
 		</div>
 
 		<div class="site-header__bg"></div>
@@ -39,7 +39,7 @@ import Navigation from "astro-navigation";
 		z-index: 8;
 		pointer-events: none;
 
-		@include desktop {
+		@include widescreen {
 			height: 0.5em;
 			pointer-events: auto;
 
@@ -56,7 +56,7 @@ import Navigation from "astro-navigation";
 	}
 
 	.site-header__inner {
-		@include desktop {
+		@include widescreen {
 			display: flex;
 			gap: 2em;
 			align-items: flex-end;
@@ -91,7 +91,7 @@ import Navigation from "astro-navigation";
 			filter: drop-shadow(0 4px 10px rgba(black, 0.25));
 		}
 
-		@include touch {
+		@include until($widescreen) {
 			transform: translateY(calc(-100% + max(4em, 11vw)));
 
 			&::after {
@@ -103,7 +103,7 @@ import Navigation from "astro-navigation";
 			}
 		}
 
-		@include desktop {
+		@include widescreen {
 			opacity: 0;
 
 			&::after {
@@ -127,7 +127,7 @@ import Navigation from "astro-navigation";
 		width: var(--width);
 		margin-top: 1em;
 
-		@include touch {
+		@include until($widescreen) {
 			position: absolute;
 			top: 0;
 			left: 50%;
@@ -139,7 +139,7 @@ import Navigation from "astro-navigation";
 			}
 		}
 
-		@include desktop {
+		@include widescreen {
 			position: static;
 			margin-bottom: calc(var(--width) * -0.3);
 			margin-left: $section-padding-h;
@@ -156,7 +156,7 @@ import Navigation from "astro-navigation";
 	.site-header__nav {
 		flex: 1 1 auto;
 
-		@include touch {
+		@include until($widescreen) {
 			padding: 4.5em 1em 1em 1em;
 			transform: translateY(-100%);
 			transition: transform ease-out-sine 300ms;
@@ -178,7 +178,7 @@ import Navigation from "astro-navigation";
 			transform: none;
 		}
 
-		@include touch {
+		@include until($widescreen) {
 			:global(.social-icons) {
 				flex-direction: row;
 			}
@@ -190,7 +190,7 @@ import Navigation from "astro-navigation";
 		top: 1em;
 		left: 0;
 
-		@include desktop {
+		@include widescreen {
 			display: none;
 		}
 
@@ -221,13 +221,13 @@ import Navigation from "astro-navigation";
 			flex-direction: column;
 			gap: 0.75em 0;
 
-			@include desktop {
+			@include widescreen {
 				flex-direction: row;
 			}
 		}
 
 		.nav-list-wrapper.level-2 {
-			@include desktop {
+			@include widescreen {
 				display: grid;
 				grid-template-rows: 0fr;
 				position: absolute;
@@ -256,7 +256,7 @@ import Navigation from "astro-navigation";
 			position: relative;
 
 			&.level-1 {
-				@include desktop {
+				@include widescreen {
 					width: min-content;
 				}
 			}
@@ -291,7 +291,7 @@ import Navigation from "astro-navigation";
 				color: $dusk;
 				white-space: nowrap;
 
-				@include desktop {
+				@include widescreen {
 					margin-right: 2em;
 				}
 			}
@@ -302,7 +302,7 @@ import Navigation from "astro-navigation";
 <script>
 	const header = document.querySelector<HTMLElement>(".site-header")!;
 	const navToggle = document.querySelector(".main-nav__toggle");
-	const desktopNavQuery = window.matchMedia("(min-width: 1024px)");
+	const desktopNavQuery = window.matchMedia("(min-width: 1216px)");
 
 	// stuck background
 	let isHeaderStuck = false;
