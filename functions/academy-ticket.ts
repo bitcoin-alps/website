@@ -1,25 +1,14 @@
-interface CourseRegistrationRequest {
-  eventName: string;
-  eventDate: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  phone?: string;
-  acceptTos: boolean;
-}
+export const onRequest = async (context: any) => {
+  // Reject non-POST requests explicitly
+  if (context.request.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405 });
+  }
 
-interface Env {
-  TELEGRAM_BOT_TOKEN: string;
-  TELEGRAM_CHAT_ID: string;
-}
-
-export const onRequestPost = async (context: any) => {
   const { request, env } = context;
 
   try {
-    const body: CourseRegistrationRequest = await request.json();
+    const body = await request.json();
 
-    // Basic validation
     if (!body.firstname || !body.lastname || !body.email || !body.acceptTos) {
       return new Response(
         JSON.stringify({
@@ -35,15 +24,16 @@ export const onRequestPost = async (context: any) => {
       );
     }
 
-    // Build message for Telegram
+    console.log('Form submission received:', body); // Debug log
+
     const text = [
-      "Neue Kursanmeldung:",
-      `Kurs: ${body.eventName}`,
-      `Datum: ${body.eventDate}`,
-      `Vorname: ${body.firstname}`,
-      `Nachname: ${body.lastname}`,
-      `E-Mail: ${body.email}`,
-      body.phone ? `Telefon: ${body.phone}` : "Telefon: –",
+      "🆕 Neue Kursanmeldung:",
+      `📋 Kurs: ${body.eventName}`,
+      `📅 Datum: ${body.eventDate}`,
+      `👤 Vorname: ${body.firstname}`,
+      `👤 Nachname: ${body.lastname}`,
+      `📧 E-Mail: ${body.email}`,
+      body.phone ? `📞 Telefon: ${body.phone}` : "📞 Telefon: –",
     ].join("\n");
 
     const telegramUrl = `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`;
@@ -65,9 +55,9 @@ export const onRequestPost = async (context: any) => {
       return new Response(
         JSON.stringify({
           type: "about:blank",
-          title: "Fehler beim Versenden",
+          title: "Telegram Fehler",
           status: 502,
-          detail: "Die Anmeldung konnte nicht an Telegram gesendet werden.",
+          detail: `Fehler beim Senden: ${errorBody.substring(0, 100)}`,
         }),
         {
           status: 502,
@@ -76,16 +66,16 @@ export const onRequestPost = async (context: any) => {
       );
     }
 
-    // Success response expected by your Svelte code
+    console.log('Telegram message sent successfully');
     return new Response(null, { status: 204 });
-  } catch (err) {
+  } catch (err: any) {
     console.error("Handler error:", err);
     return new Response(
       JSON.stringify({
         type: "about:blank",
         title: "Serverfehler",
         status: 500,
-        detail: "Es ist ein unerwarteter Fehler aufgetreten.",
+        detail: err.message || "Unbekannter Fehler",
       }),
       {
         status: 500,
