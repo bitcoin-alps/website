@@ -36,7 +36,7 @@
 	let { eventName, eventDate, cutoffDate, disabled = false, children }: Props = $props();
 
 	const tosUrl = "/akademie/kursbedingungen";
-	const action: string = "/api/academy-ticket";
+	const action: string = "/academy-ticket";
 	const initialData: CourseRegistrationRequest = {
 		eventName: eventName,
 		eventDate: eventDate,
