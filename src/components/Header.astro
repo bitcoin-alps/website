@@ -31,6 +31,12 @@ import Navigation from "astro-navigation";
 	@import "bulma/sass/utilities/mixins";
 
 	.site-header {
+		// Level-2 submenus are absolutely positioned, so they cannot grow the header
+		// on their own. The script measures the deepest one into --menu-height.
+		--menu-height: 0px;
+		// How far the curved background bleeds past the bottom of the header box.
+		--bg-overshoot: 1em;
+
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -40,11 +46,15 @@ import Navigation from "astro-navigation";
 		pointer-events: none;
 
 		@include widescreen {
+			--bg-overshoot: 7em;
+
 			height: 0.5em;
 			pointer-events: auto;
 
 			&.is-open {
-				height: 9em;
+				// Grow to fit the deepest submenu, keeping 2.5em of background
+				// clear below it. Falls back to 9em before the script runs.
+				height: max(9em, calc(var(--menu-height) + 2.5em - var(--bg-overshoot)));
 			}
 		}
 		@include widescreen {
@@ -80,6 +90,7 @@ import Navigation from "astro-navigation";
 			content: "";
 			position: absolute;
 			left: 0;
+			bottom: calc(var(--bg-overshoot) * -1);
 			width: 100%;
 			height: 100vh;
 			background: linear-gradient(to bottom, white calc(100vh - 7em), #f6f3f5);
@@ -94,10 +105,6 @@ import Navigation from "astro-navigation";
 		@include until($widescreen) {
 			transform: translateY(calc(-100% + max(4em, 11vw)));
 
-			&::after {
-				bottom: -1em;
-			}
-
 			.is-open & {
 				transform: none;
 			}
@@ -105,10 +112,6 @@ import Navigation from "astro-navigation";
 
 		@include widescreen {
 			opacity: 0;
-
-			&::after {
-				bottom: -7em;
-			}
 
 			.is-stuck & {
 				transition: opacity ease-out-quad 200ms;
@@ -303,6 +306,31 @@ import Navigation from "astro-navigation";
 	const header = document.querySelector<HTMLElement>(".site-header")!;
 	const navToggle = document.querySelector(".main-nav__toggle");
 	const desktopNavQuery = window.matchMedia("(min-width: 1216px)");
+
+	// open height
+	// The submenus are absolutely positioned and collapsed to zero height, so the
+	// header cannot size itself around them. Their items keep their natural height
+	// while collapsed though, so the deepest one can be measured at any time.
+	function measureMenuHeight() {
+		const headerTop = header.getBoundingClientRect().top;
+		let deepest = 0;
+
+		for (const list of document.querySelectorAll(".nav-list.level-2")) {
+			const last = list.lastElementChild;
+			if (!last) continue;
+
+			const marginBottom = parseFloat(getComputedStyle(last).marginBottom);
+			const bottom = last.getBoundingClientRect().bottom - headerTop + marginBottom;
+			deepest = Math.max(deepest, bottom);
+		}
+
+		header.style.setProperty("--menu-height", `${Math.ceil(deepest)}px`);
+	}
+
+	measureMenuHeight();
+	window.addEventListener("resize", measureMenuHeight);
+	// webfonts shift the item heights once they swap in
+	document.fonts?.ready.then(measureMenuHeight);
 
 	// stuck background
 	let isHeaderStuck = false;
